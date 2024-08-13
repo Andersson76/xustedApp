@@ -19,7 +19,7 @@
         "file": "/audio/fishermans_friend.mp3"
       }
     ],
-    "cover":  "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/IcePicker.png"
+    "cover": "./assets/images/test.png"
   },
   {
     "id": "2",
