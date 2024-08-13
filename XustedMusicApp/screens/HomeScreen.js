@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation }) {
 
 useEffect(() => {
   fetch(
-    "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/albums.json"
+    "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/albums.json"
   )
     .then((response) => {
       if (!response.ok) {
