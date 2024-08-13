@@ -19,7 +19,7 @@
         "file": "/audio/fishermans_friend.mp3"
       }
     ],
-    "cover":  "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/IcePicker.png"
+    "cover":  "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/IcePicker.png"
   },
   {
     "id": "2",
@@ -32,7 +32,7 @@
       },
       { "title": "Tunnel 2", "duration": "4:29", "file": "/audio/tunnel_2.mp3" }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/TunnelVisions.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/TunnelVisions.png"
   },
   {
     "id": "3",
@@ -44,7 +44,7 @@
         "file": "/audio/"
       }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/AwakeSlumber.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/AwakeSlumber.png"
   },
   {
     "id": "4",
@@ -53,7 +53,7 @@
       { "title": "TYO", "duration": "2:40", "file": "/audio/tyo.mp3" },
       { "title": "OYT", "duration": "3:45", "file": "/audio/oyt.mp3" }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/tyooyt.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/tyooyt.png"
   },
   {
     "id": "5",
@@ -70,7 +70,7 @@
         "file": "/audio/receptor_2.mp3"
       }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/receptor.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/receptor.png"
   },
   {
     "id": "6",
@@ -78,7 +78,7 @@
     "songs": [
       { "title": "Busted", "duration": "5:56", "file": "/audio/busted.mp3" }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/busted.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/busted.png"
   },
   {
     "id": "7",
@@ -87,6 +87,6 @@
       { "title": "Maze", "duration": "3:29", "file": "/audio/maze.mp3" },
       { "title": "Sensor", "duration": "5:31", "file": "/audio/sensor.mp3" }
     ],
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/Xusted-Next//main/assets/data/images/maze.png"
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/assets/data/images/maze.png"
   }
 ]
