@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Album", { album: item })}
+            onPress={() => navigation.navigate("Album", { albumId: item.id })}
           >
             <View style={styles.albumContainer}>
               <Image source={{ uri: item.cover }} style={styles.coverImage} />
@@ -48,9 +48,9 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
   },
   albumContainer: {
     flexDirection: "row",
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   coverImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     marginRight: 10,
   },
   albumTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });
