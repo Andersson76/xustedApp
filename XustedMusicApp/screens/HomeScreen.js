@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   View,
   Text,
@@ -12,20 +13,16 @@ export default function HomeScreen({ navigation }) {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/albums.json"
-    )
+    axios
+      .get(
+        "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/albums.json"
+      )
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+        setAlbums(response.data);
       })
-      .then((data) => {
-        console.log(data); // Kontrollera här att du får vad du förväntar dig
-        setAlbums(data.albums);
-      })
-      .catch((error) => console.error("Fetch error:", error));
+      .catch((error) => {
+        console.error("Axios error:", error);
+      });
   }, []);
 
   return (
@@ -51,20 +48,22 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   albumContainer: {
     flexDirection: "row",
-    alignItems: "center",
     marginBottom: 10,
+    alignItems: "center",
   },
   coverImage: {
     width: 100,
     height: 100,
     marginRight: 10,
-    resizeMode: "cover",
   },
   albumTitle: {
     fontSize: 18,
+    fontWeight: "bold",
   },
 });
