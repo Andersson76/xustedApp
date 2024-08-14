@@ -2,36 +2,91 @@
   {
     "id": "1",
     "title": "Ice Picker",
-    "cover": "./assets/images/test.png"
+    "songs": [
+      {
+        "title": "Ice Picker",
+        "duration": "3:20",
+        "file": "/audio/ice_picker.mp3"
+      },
+      {
+        "title": "Cold Horizon",
+        "duration": "4:43",
+        "file": "/audio/cold_horizon.mp3"
+      },
+      {
+        "title": "Fishermans Friend",
+        "duration": "3:24",
+        "file": "/audio/fishermans_friend.mp3"
+      }
+    ],
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/IcePicker.png"
   },
   {
     "id": "2",
     "title": "Tunnel Visions",
-    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/tyo.png"
+    "songs": [
+      {
+        "title": "Tunnel 1",
+        "duration": "5:32",
+        "file": "/audio/tunnel_1.mp3"
+      },
+      { "title": "Tunnel 2", "duration": "4:29", "file": "/audio/tunnel_2.mp3" }
+    ],
+    "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/TunnelVisions.png"
   },
   {
     "id": "3",
     "title": "Awake Slumber",
+    "songs": [
+      {
+        "title": "Awake Slumber",
+        "duration": "7:32",
+        "file": "/audio/"
+      }
+    ],
     "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/AwakeSlumber.png"
   },
   {
     "id": "4",
     "title": "TYO OYT",
+    "songs": [
+      { "title": "TYO", "duration": "2:40", "file": "/audio/tyo.mp3" },
+      { "title": "OYT", "duration": "3:45", "file": "/audio/oyt.mp3" }
+    ],
     "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/tyooyt.png"
   },
   {
     "id": "5",
     "title": "Receptor",
+    "songs": [
+      {
+        "title": "Receptor",
+        "duration": "7:08",
+        "file": "/audio/receptor.mp3"
+      },
+      {
+        "title": "Receptor L2",
+        "duration": "6:35",
+        "file": "/audio/receptor_2.mp3"
+      }
+    ],
     "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/receptor.png"
   },
   {
     "id": "6",
     "title": "Busted",
+    "songs": [
+      { "title": "Busted", "duration": "5:56", "file": "/audio/busted.mp3" }
+    ],
     "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/busted.png"
   },
   {
     "id": "7",
     "title": "Maze",
+    "songs": [
+      { "title": "Maze", "duration": "3:29", "file": "/audio/maze.mp3" },
+      { "title": "Sensor", "duration": "5:31", "file": "/audio/sensor.mp3" }
+    ],
     "cover": "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/images/maze.png"
   }
 ]
