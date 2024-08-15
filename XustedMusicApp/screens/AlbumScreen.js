@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,45 +8,21 @@ import {
   Image,
 } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
-//import Sound from "react-native-sound";
+import { AlbumContext } from "../AlbumContext";
 
 export default function AlbumScreen({ route, navigation }) {
   const { albumId } = route.params;
-  const [albums, setAlbums] = useState([]);
+  const { albums } = useContext(AlbumContext);
   const [currentAlbumIndex, setCurrentAlbumIndex] = useState(0);
 
   useEffect(() => {
-    if (!albumId) {
-      console.error("albumId is undefined");
-      return;
+    const initialIndex = albums.findIndex((album) => album.id === albumId);
+    if (initialIndex !== -1) {
+      setCurrentAlbumIndex(initialIndex);
+    } else {
+      console.error("Album not found");
     }
-    console.log("Received albumId:", albumId); // Lägg till denna rad för att se albumId
-    axios
-      .get(
-        "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/albums.json"
-      )
-      .then((response) => {
-        console.log("API Response:", response.data);
-        if (response.data && Array.isArray(response.data)) {
-          setAlbums(response.data);
-          response.data.forEach((album) => console.log("Album ID:", album.id)); // Lägg till denna rad för att se alla album-ID:n
-          const initialIndex = response.data.findIndex(
-            (album) => album.id === albumId
-          );
-          console.log("Initial Index:", initialIndex); // Lägg till denna rad för att se indexet
-          if (initialIndex !== -1) {
-            setCurrentAlbumIndex(initialIndex);
-          } else {
-            console.error("Album not found");
-          }
-        } else {
-          console.error("Unexpected response structure:", response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Axios error:", error);
-      });
-  }, [albumId]);
+  }, [albumId, albums]);
 
   const handleSwipeLeft = () => {
     if (currentAlbumIndex < albums.length - 1) {
@@ -70,16 +45,6 @@ export default function AlbumScreen({ route, navigation }) {
   if (albums.length === 0) return null;
 
   const album = albums[currentAlbumIndex];
-
-  /*   const playSong = (song) => {
-    const sound = new Sound(song.file, Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.log("Failed to load the sound", error);
-        return;
-      }
-      sound.play();
-    });
-  }; */
 
   return (
     <GestureRecognizer

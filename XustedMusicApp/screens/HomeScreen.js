@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -8,22 +7,10 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+import { AlbumContext } from "../AlbumContext";
 
 export default function HomeScreen({ navigation }) {
-  const [albums, setAlbums] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://raw.githubusercontent.com/Andersson76/xustedApp/main/XustedMusicApp/assets/data/albums.json"
-      )
-      .then((response) => {
-        setAlbums(response.data);
-      })
-      .catch((error) => {
-        console.error("Axios error:", error);
-      });
-  }, []);
+  const { albums } = useContext(AlbumContext);
 
   return (
     <View style={styles.container}>
