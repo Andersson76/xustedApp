@@ -8,12 +8,14 @@ import {
   Image,
 } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
+import { Audio } from "expo-av"; // Importera Audio från expo-av
 import { AlbumContext } from "../AlbumContext";
 
 export default function AlbumScreen({ route, navigation }) {
   const { albumId } = route.params;
   const { albums } = useContext(AlbumContext);
   const [currentAlbumIndex, setCurrentAlbumIndex] = useState(0);
+  const [sound, setSound] = useState(null);
 
   useEffect(() => {
     const initialIndex = albums.findIndex((album) => album.id === albumId);
@@ -22,7 +24,13 @@ export default function AlbumScreen({ route, navigation }) {
     } else {
       console.error("Album not found");
     }
-  }, [albumId, albums]);
+
+    return () => {
+      if (sound) {
+        sound.unloadAsync(); // Avlasta ljudfilen när komponenten demonteras
+      }
+    };
+  }, [albumId, albums, sound]);
 
   const handleSwipeLeft = () => {
     if (currentAlbumIndex < albums.length - 1) {
@@ -40,6 +48,17 @@ export default function AlbumScreen({ route, navigation }) {
         albumId: albums[currentAlbumIndex - 1].id,
       });
     }
+  };
+
+  const playSong = async (song) => {
+    if (sound) {
+      await sound.unloadAsync(); // Avlasta eventuell tidigare laddad ljudfil
+    }
+    const { sound: newSound } = await Audio.Sound.createAsync(
+      require(`../assets/sounds/${song.file}`)
+    );
+    setSound(newSound);
+    await newSound.playAsync();
   };
 
   if (albums.length === 0) return null;
