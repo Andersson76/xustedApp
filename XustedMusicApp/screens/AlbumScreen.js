@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Button,
 } from "react-native";
+import Slider from '@react-native-community/slider'; // Uppdaterad import
 import GestureRecognizer from "react-native-swipe-gestures";
 import { Audio } from "expo-av"; // Importera Audio från expo-av
 import { AlbumContext } from "../AlbumContext";
@@ -16,6 +18,9 @@ export default function AlbumScreen({ route, navigation }) {
   const { albums } = useContext(AlbumContext);
   const [currentAlbumIndex, setCurrentAlbumIndex] = useState(0);
   const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackPosition, setPlaybackPosition] = useState(0);
+  const [playbackDuration, setPlaybackDuration] = useState(0);
 
   useEffect(() => {
     const initialIndex = albums.findIndex((album) => album.id === albumId);
@@ -31,6 +36,20 @@ export default function AlbumScreen({ route, navigation }) {
       }
     };
   }, [albumId, albums, sound]);
+
+  useEffect(() => {
+    const updatePlaybackStatus = async () => {
+      if (sound) {
+        const status = await sound.getStatusAsync();
+        setPlaybackPosition(status.positionMillis);
+        setPlaybackDuration(status.durationMillis);
+        setIsPlaying(status.isPlaying);
+      }
+    };
+
+    const interval = setInterval(updatePlaybackStatus, 1000); // Uppdatera varje sekund
+    return () => clearInterval(interval);
+  }, [sound]);
 
   const handleSwipeLeft = () => {
     if (currentAlbumIndex < albums.length - 1) {
@@ -79,6 +98,24 @@ export default function AlbumScreen({ route, navigation }) {
     await newSound.playAsync();
   };
 
+  const handlePlayPause = async () => {
+    if (sound) {
+      if (isPlaying) {
+        await sound.pauseAsync();
+      } else {
+        await sound.playAsync();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleStop = async () => {
+    if (sound) {
+      await sound.stopAsync();
+      setIsPlaying(false);
+    }
+  };
+
   if (albums.length === 0) return null;
 
   const album = albums[currentAlbumIndex];
@@ -90,7 +127,40 @@ export default function AlbumScreen({ route, navigation }) {
       style={styles.container}
     >
       <View style={styles.container}>
+        <Image source={{ uri: album.cover }} style={styles.albumCover} />
         <Text style={styles.albumTitle}>{album.title}</Text>
+
+        {sound && (
+          <View style={styles.controls}>
+            <Button
+              title={isPlaying ? "Pause" : "Play"}
+              onPress={handlePlayPause}
+            />
+            <Button title="Stop" onPress={handleStop} />
+            <View style={styles.progressContainer}>
+              <Slider
+                style={styles.slider}
+                value={playbackPosition}
+                minimumValue={0}
+                maximumValue={playbackDuration}
+                onValueChange={async (value) => {
+                  if (sound) {
+                    await sound.setPositionAsync(value);
+                    setPlaybackPosition(value);
+                  }
+                }}
+                thumbTintColor="#000000"
+                minimumTrackTintColor="#000000"
+                maximumTrackTintColor="#cccccc"
+              />
+              <Text style={styles.timeText}>
+                {Math.floor(playbackPosition / 1000)} /{" "}
+                {Math.floor(playbackDuration / 1000)}
+              </Text>
+            </View>
+          </View>
+        )}
+
         <FlatList
           data={album.songs}
           keyExtractor={(item, index) => index.toString()}
@@ -113,6 +183,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  albumCover: {
+    width: "100%",
+    height: 200,
+    marginBottom: 10,
+  },
   albumTitle: {
     fontSize: 24,
     fontWeight: "bold",
@@ -128,5 +203,21 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     marginRight: 10,
+  },
+  controls: {
+    marginVertical: 20,
+    alignItems: "center",
+  },
+  progressContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  slider: {
+    width: "100%",
+    height: 40,
+  },
+  timeText: {
+    marginTop: 10,
+    fontSize: 16,
   },
 });
