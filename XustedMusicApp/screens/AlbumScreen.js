@@ -51,10 +51,16 @@ export default function AlbumScreen({ route, navigation }) {
   };
 
   const soundFiles = {
-    "busted.wav": require("../assets/sounds/busted.wav"),
-    "cold_horizon.wav": require("../assets/sounds/cold_horizon.wav"),
-    "fishermans_friend.wav": require("../assets/sounds/fishermans_friend.wav"),
-    "ice_picker.wav": require("../assets/sounds/ice_picker.wav"),
+    "ice_picker.mp3": require("../assets/sounds/ice_picker.mp3"),
+    "cold_horizon.mp3": require("../assets/sounds/cold_horizon.mp3"),
+    "fishermans_friend.mp3": require("../assets/sounds/fishermans_friend.mp3"),
+    "tunnel_1.mp3": require("../assets/sounds/tunnel_1.mp3"),
+    "tunnel_2.mp3": require("../assets/sounds/tunnel_2.mp3"),
+    "tyo.mp3": require("../assets/sounds/tyo.mp3"),
+    "oyt.mp3": require("../assets/sounds/oyt.mp3"),
+    "busted.mp3": require("../assets/sounds/busted.mp3"),
+    "maze.mp3": require("../assets/sounds/maze.mp3"),
+    "sensor.mp3": require("../assets/sounds/sensor.mp3"),
   };
 
   const playSong = async (song) => {
