@@ -50,13 +50,25 @@ export default function AlbumScreen({ route, navigation }) {
     }
   };
 
+  const soundFiles = {
+    "busted.wav": require("../assets/sounds/busted.wav"),
+    "cold_horizon.wav": require("../assets/sounds/cold_horizon.wav"),
+    "fishermans_friend.wav": require("../assets/sounds/fishermans_friend.wav"),
+    "ice_picker.wav": require("../assets/sounds/ice_picker.wav"),
+  };
+
   const playSong = async (song) => {
     if (sound) {
       await sound.unloadAsync(); // Avlasta eventuell tidigare laddad ljudfil
     }
-    const { sound: newSound } = await Audio.Sound.createAsync(
-      require(`../assets/sounds/${song.file}`)
-    );
+
+    const soundFile = soundFiles[song.file];
+    if (!soundFile) {
+      console.error(`Sound file ${song.file} not found!`);
+      return;
+    }
+
+    const { sound: newSound } = await Audio.Sound.createAsync(soundFile);
     setSound(newSound);
     await newSound.playAsync();
   };
