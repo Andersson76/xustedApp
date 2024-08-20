@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   albumCover: {
-    width: "200",
+    width: 200,
     height: 200,
     marginBottom: 10,
   },
