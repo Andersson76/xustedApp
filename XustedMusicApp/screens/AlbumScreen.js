@@ -8,9 +8,9 @@ import {
   Image,
   Button,
 } from "react-native";
-import Slider from '@react-native-community/slider'; // Uppdaterad import
 import GestureRecognizer from "react-native-swipe-gestures";
-import { Audio } from "expo-av"; // Importera Audio från expo-av
+import Slider from "@react-native-community/slider";
+import { Audio } from "expo-av";
 import { AlbumContext } from "../AlbumContext";
 
 export default function AlbumScreen({ route, navigation }) {
@@ -36,20 +36,6 @@ export default function AlbumScreen({ route, navigation }) {
       }
     };
   }, [albumId, albums, sound]);
-
-  useEffect(() => {
-    const updatePlaybackStatus = async () => {
-      if (sound) {
-        const status = await sound.getStatusAsync();
-        setPlaybackPosition(status.positionMillis);
-        setPlaybackDuration(status.durationMillis);
-        setIsPlaying(status.isPlaying);
-      }
-    };
-
-    const interval = setInterval(updatePlaybackStatus, 1000); // Uppdatera varje sekund
-    return () => clearInterval(interval);
-  }, [sound]);
 
   const handleSwipeLeft = () => {
     if (currentAlbumIndex < albums.length - 1) {
@@ -84,7 +70,7 @@ export default function AlbumScreen({ route, navigation }) {
 
   const playSong = async (song) => {
     if (sound) {
-      await sound.unloadAsync(); // Avlasta eventuell tidigare laddad ljudfil
+      await sound.unloadAsync();
     }
 
     const soundFile = soundFiles[song.file];
@@ -95,25 +81,37 @@ export default function AlbumScreen({ route, navigation }) {
 
     const { sound: newSound } = await Audio.Sound.createAsync(soundFile);
     setSound(newSound);
+    setIsPlaying(true);
     await newSound.playAsync();
+    newSound.setOnPlaybackStatusUpdate((status) => {
+      if (status.isLoaded) {
+        setPlaybackPosition(status.positionMillis || 0);
+        setPlaybackDuration(status.durationMillis || 0);
+        if (status.didJustFinish) {
+          setIsPlaying(false);
+        }
+      }
+    });
   };
 
   const handlePlayPause = async () => {
-    if (sound) {
-      if (isPlaying) {
-        await sound.pauseAsync();
-      } else {
-        await sound.playAsync();
-      }
-      setIsPlaying(!isPlaying);
+    if (!sound) return;
+
+    if (isPlaying) {
+      await sound.pauseAsync();
+      setIsPlaying(false);
+    } else {
+      await sound.playAsync();
+      setIsPlaying(true);
     }
   };
 
   const handleStop = async () => {
-    if (sound) {
-      await sound.stopAsync();
-      setIsPlaying(false);
-    }
+    if (!sound) return;
+
+    await sound.stopAsync();
+    setIsPlaying(false);
+    setPlaybackPosition(0);
   };
 
   if (albums.length === 0) return null;
@@ -127,8 +125,10 @@ export default function AlbumScreen({ route, navigation }) {
       style={styles.container}
     >
       <View style={styles.container}>
-        <Image source={{ uri: album.cover }} style={styles.albumCover} />
-        <Text style={styles.albumTitle}>{album.title}</Text>
+        <View style={styles.albumContainer}>
+          <Image source={{ uri: album.cover }} style={styles.albumCover} />
+          <Text style={styles.albumTitle}>{album.title}</Text>
+        </View>
 
         {sound && (
           <View style={styles.controls}>
@@ -183,15 +183,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  albumContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
   albumCover: {
-    width: "200",
+    width: 200,
     height: 200,
     marginBottom: 10,
   },
   albumTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    textAlign: "center",
   },
   songTitle: {
     fontSize: 18,
