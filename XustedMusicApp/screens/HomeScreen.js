@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -6,11 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-} from "react-native";
-import { AlbumContext } from "../AlbumContext";
+  Button,
+  Platform,
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { AlbumContext } from '../AlbumContext';
 
 export default function HomeScreen({ navigation }) {
   const { albums } = useContext(AlbumContext);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === 'ios');
+    setSelectedDate(currentDate);
+  };
 
   return (
     <View style={styles.container}>
@@ -19,7 +30,7 @@ export default function HomeScreen({ navigation }) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Album", { albumId: item.id })}
+            onPress={() => navigation.navigate('Album', { albumId: item.id })}
           >
             <View style={styles.albumContainer}>
               <Image source={{ uri: item.cover }} style={styles.coverImage} />
@@ -28,6 +39,19 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
+
+      {/* Visa DateTimePicker iOS*/}
+      <Button title="Välj datum" onPress={() => setShowDatePicker(true)} />
+      {showDatePicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={onChange}
+          locale="sv-SE"
+        />
+      )}
+      <Text>Valt datum: {selectedDate.toLocaleDateString()}</Text>
     </View>
   );
 }
@@ -35,14 +59,14 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
   },
   albumContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   coverImage: {
     width: 150,
@@ -51,6 +75,6 @@ const styles = StyleSheet.create({
   },
   albumTitle: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
