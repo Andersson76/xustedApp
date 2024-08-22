@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,11 @@ import {
   StyleSheet,
   Image,
   Button,
-} from "react-native";
-import GestureRecognizer from "react-native-swipe-gestures";
-import Slider from "@react-native-community/slider";
-import { Audio } from "expo-av";
-import { AlbumContext } from "../AlbumContext";
+} from 'react-native';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import Slider from '@react-native-community/slider';
+import { Audio } from 'expo-av';
+import { AlbumContext } from '../AlbumContext';
 
 export default function AlbumScreen({ route, navigation }) {
   const { albumId } = route.params;
@@ -27,7 +27,7 @@ export default function AlbumScreen({ route, navigation }) {
     if (initialIndex !== -1) {
       setCurrentAlbumIndex(initialIndex);
     } else {
-      console.error("Album not found");
+      console.error('Album not found');
     }
 
     return () => {
@@ -40,7 +40,7 @@ export default function AlbumScreen({ route, navigation }) {
   const handleSwipeLeft = () => {
     if (currentAlbumIndex < albums.length - 1) {
       setCurrentAlbumIndex(currentAlbumIndex + 1);
-      navigation.navigate("Album", {
+      navigation.navigate('Album', {
         albumId: albums[currentAlbumIndex + 1].id,
       });
     }
@@ -49,23 +49,25 @@ export default function AlbumScreen({ route, navigation }) {
   const handleSwipeRight = () => {
     if (currentAlbumIndex > 0) {
       setCurrentAlbumIndex(currentAlbumIndex - 1);
-      navigation.navigate("Album", {
+      navigation.navigate('Album', {
         albumId: albums[currentAlbumIndex - 1].id,
       });
     }
   };
 
   const soundFiles = {
-    "ice_picker.mp3": require("../assets/sounds/ice_picker.mp3"),
-    "cold_horizon.mp3": require("../assets/sounds/cold_horizon.mp3"),
-    "fishermans_friend.mp3": require("../assets/sounds/fishermans_friend.mp3"),
-    "tunnel_1.mp3": require("../assets/sounds/tunnel_1.mp3"),
-    "tunnel_2.mp3": require("../assets/sounds/tunnel_2.mp3"),
-    "tyo.mp3": require("../assets/sounds/tyo.mp3"),
-    "oyt.mp3": require("../assets/sounds/oyt.mp3"),
-    "busted.mp3": require("../assets/sounds/busted.mp3"),
-    "maze.mp3": require("../assets/sounds/maze.mp3"),
-    "sensor.mp3": require("../assets/sounds/sensor.mp3"),
+    'ice_picker.mp3': require('../assets/sounds/ice_picker.mp3'),
+    'cold_horizon.mp3': require('../assets/sounds/cold_horizon.mp3'),
+    'fishermans_friend.mp3': require('../assets/sounds/fishermans_friend.mp3'),
+    'tunnel_1.mp3': require('../assets/sounds/tunnel_1.mp3'),
+    'tunnel_2.mp3': require('../assets/sounds/tunnel_2.mp3'),
+    'tyo.mp3': require('../assets/sounds/tyo.mp3'),
+    'oyt.mp3': require('../assets/sounds/oyt.mp3'),
+    'busted.mp3': require('../assets/sounds/busted.mp3'),
+    'maze.mp3': require('../assets/sounds/maze.mp3'),
+    'sensor.mp3': require('../assets/sounds/sensor.mp3'),
+    'receptor.mp3': require('../assets/sounds/receptor.mp3'),
+    'receptor_2.mp3': require('../assets/sounds/receptor_2.mp3'),
   };
 
   const playSong = async (song) => {
@@ -133,7 +135,7 @@ export default function AlbumScreen({ route, navigation }) {
         {sound && (
           <View style={styles.controls}>
             <Button
-              title={isPlaying ? "Pause" : "Play"}
+              title={isPlaying ? 'Pause' : 'Play'}
               onPress={handlePlayPause}
             />
             <Button title="Stop" onPress={handleStop} />
@@ -154,7 +156,7 @@ export default function AlbumScreen({ route, navigation }) {
                 maximumTrackTintColor="#cccccc"
               />
               <Text style={styles.timeText}>
-                {Math.floor(playbackPosition / 1000)} /{" "}
+                {Math.floor(playbackPosition / 1000)} /{' '}
                 {Math.floor(playbackDuration / 1000)}
               </Text>
             </View>
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   albumContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 20,
   },
   albumCover: {
@@ -194,13 +196,13 @@ const styles = StyleSheet.create({
   },
   albumTitle: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   songTitle: {
     fontSize: 18,
     padding: 10,
-    backgroundColor: "#eee",
+    backgroundColor: '#eee',
     marginBottom: 5,
   },
   coverImage: {
@@ -210,14 +212,14 @@ const styles = StyleSheet.create({
   },
   controls: {
     marginVertical: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   progressContainer: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
   },
   slider: {
-    width: "100%",
+    width: '100%',
     height: 40,
   },
   timeText: {

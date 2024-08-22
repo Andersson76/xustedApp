@@ -9,6 +9,7 @@ import {
   Button,
   Platform,
 } from 'react-native';
+import HapticFeedback from 'react-native-haptic-feedback';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AlbumContext } from '../AlbumContext';
 
@@ -16,6 +17,10 @@ export default function HomeScreen({ navigation }) {
   const { albums } = useContext(AlbumContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const triggerHaptic = () => {
+    HapticFeedback.trigger('impactLight');
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -30,7 +35,10 @@ export default function HomeScreen({ navigation }) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('Album', { albumId: item.id })}
+            onPress={() => {
+              triggerHaptic();
+              navigation.navigate('Album', { albumId: item.id });
+            }}
           >
             <View style={styles.albumContainer}>
               <Image source={{ uri: item.cover }} style={styles.coverImage} />
@@ -39,7 +47,9 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
-
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Button title="Trigger Haptic Feedback" onPress={triggerHaptic} />
+      </View>
       {/* Visa DateTimePicker iOS*/}
       <Button title="Välj datum" onPress={() => setShowDatePicker(true)} />
       {showDatePicker && (
