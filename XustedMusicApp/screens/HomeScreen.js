@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,23 +9,29 @@ import {
   Button,
   Platform,
 } from 'react-native';
-import HapticFeedback from 'react-native-haptic-feedback';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import ActionSheet from 'react-native-actionsheet';
 import { AlbumContext } from '../AlbumContext';
 
 export default function HomeScreen({ navigation }) {
   const { albums } = useContext(AlbumContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const triggerHaptic = () => {
-    HapticFeedback.trigger('impactLight');
-  };
+  const actionSheetRef = useRef();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(Platform.OS === 'ios');
     setSelectedDate(currentDate);
+  };
+
+  const showActionSheet = () => {
+    actionSheetRef.current.show();
+  };
+
+  const handleActionSheetPress = (index) => {
+    // Hantera ActionSheet-alternativ här
+    console.log('Valt alternativ:', index);
   };
 
   return (
@@ -36,7 +42,6 @@ export default function HomeScreen({ navigation }) {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              triggerHaptic();
               navigation.navigate('Album', { albumId: item.id });
             }}
           >
@@ -47,9 +52,6 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button title="Trigger Haptic Feedback" onPress={triggerHaptic} />
-      </View>
       {/* Visa DateTimePicker iOS*/}
       <Button title="Välj datum" onPress={() => setShowDatePicker(true)} />
       {showDatePicker && (
@@ -62,6 +64,19 @@ export default function HomeScreen({ navigation }) {
         />
       )}
       <Text>Valt datum: {selectedDate.toLocaleDateString()}</Text>
+
+      {/* Knapp för att visa ActionSheet */}
+      <Button title="Visa alternativ" onPress={showActionSheet} />
+
+      {/* Implementera ActionSheet */}
+      <ActionSheet
+        ref={actionSheetRef}
+        title={'Vilket alternativ vill du välja?'}
+        options={['Alternativ 1', 'Alternativ 2', 'Avbryt']}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={1}
+        onPress={(index) => handleActionSheetPress(index)}
+      />
     </View>
   );
 }
